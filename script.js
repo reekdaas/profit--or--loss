@@ -7,13 +7,17 @@ let output = document.querySelector("#output");
 function calculateProfitAndLoss(initial, quantity, current) {
   if (initial > current) {
     let loss = (initial - current) * quantity;
-    let lossPercentage = (loss / initial) * 100;
+    let lossPercentage = (loss / (initial * quantity)) * 100;
 
-    showOutput(`The loss is ${lossPercentage} % 🙁`);
+    showOutput(
+      `The loss is ${loss} and loss percentage is ${lossPercentage} % 🙁`
+    );
   } else if (initial < current) {
     let profit = (current - initial) * quantity;
-    let profitPercentage = (profit / initial) * 100;
-    showOutput(`The profit percentage is ${profitPercentage} % 🤑`);
+    let profitPercentage = (profit / (initial * quantity)) * 100;
+    showOutput(
+      `The profit is ${profit} and profit percentage is ${profitPercentage} % 🤑`
+    );
   } else {
     showOutput(`No profit,Hey no lose also!😇`);
   }
@@ -27,7 +31,11 @@ let clickEventHandler = function () {
   let final = Number(finalPrice.value);
 
   if (initial && quanityOfStocks && final) {
-    calculateProfitAndLoss(initial, quanityOfStocks, final);
+    if (initial < 0 || final < 0 || quanityOfStocks < 0) {
+      showOutput(`Input should be greater than zero`);
+    } else {
+      calculateProfitAndLoss(initial, quanityOfStocks, final);
+    }
   } else {
     showOutput(`Hey!!enter all the required fields.😡`);
   }
